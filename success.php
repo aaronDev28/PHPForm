@@ -41,12 +41,44 @@
 <body>
 
 
+
+<?php
+session_start();
+		$to = $_POST['email'];
+		$bcc = 'aaron@yaliio.com';
+		$subject = 'Confirmation of Form Submission';
+		$message = 'Thank you for submitting the form. Here is the information you provided: ' . "\r\n\r\n" .
+			'Name: ' . $_POST['name'] . "\r\n" .
+			'Phone Number: ' . $_POST['phone'] . "\r\n" .
+			'Email: ' . $_POST['email'] . "\r\n" .
+			'Location: ' . $_POST['location'] . "\r\n" .
+			'Age: ' . $_POST['age'] . "\r\n" .
+			'University: ' . $_POST['university'] . "\r\n\r\n" .
+			'Thank you!';
+		$headers = 'From: aaron@yaliio.com' . "\r\n" .
+			'Bcc: ' . $bcc . "\r\n";
+
+      $mail_result = mail($to, $subject, $message, $headers);
+	?>
+
 <div class="card">
       <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
         <i class="checkmark">✓</i>
       </div>
         <h1>Success</h1> 
         <p>Thank you for filling the form, <?php echo $_POST['name']; ?>.</p>
+        <?php
+if ($mail_result) {
+  echo '<p>A confirmation email has been sent to ' . $_POST['email'] . '.</p>';
+} else {
+  echo '<p>Error: The confirmation email could not be sent.</p>';
+  error_log('Error: The confirmation email could not be sent.');
+}
+        ?>
       </div>
+
+
+      
+
 </body>
 </html>
